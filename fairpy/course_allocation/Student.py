@@ -1,7 +1,7 @@
 from copy import deepcopy
 from Course import Course
 class Student:
-    def __init__(self,name:str, budget:float, preferences:list, courses:list[Course] = [], year:int=1) -> None:
+    def __init__(self,name:str, budget:float, preferences:set[Course], courses:set[Course] = [], year:int=1) -> None:
         self.name = name
         self.budget = budget
         self.courses = courses

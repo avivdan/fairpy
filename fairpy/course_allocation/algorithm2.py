@@ -57,12 +57,12 @@ def csp_mapping(students:list[Student],courses:list[Course]):
 
 def process_copy(student:Student, i):
     copy_student = copy.deepcopy(student)
-    copy_student.preferences = []
+    copy_student.preferences = student.preferences[:]
     for pre in copy_student.preferences:
         copy_student.preferences.append(pre)
     return copy_student, i
 
-def algorithm2(price_vector:list[float], maximum:int, eps:float, csp_mapping:callable, students, courses)->list[float]:
+def algorithm2(price_vector:list[float], maximum:int, eps:float, students, courses, csp_mapping:callable = csp_mapping)->list[float]:
     '''
     Iterative oversubscription elimination algorithm, 
     reducing by half the excess demand of the most oversubscribed course with each pass,
@@ -93,15 +93,10 @@ def algorithm2(price_vector:list[float], maximum:int, eps:float, csp_mapping:cal
     wow = []
     for s in students:
         a = copy.deepcopy(s)
-        a.preferences = []
-        for pre in s.preferences:
-            a.preferences.append(pre)
+        a.preferences = s.preferences[:]
         wow.append(a)
     flag = False
-    # if(sorted([student.budget for student in students])[-1] < maximum):
-    #     #the algorithm requires maximum to be less than maximum budget
-    #     # maximum = sorted([student.budget for student in students])[-1]
-    #     # logger.warning("maximum greater than max budget")
+    
     logger.debug("%g is the greatest budget", sorted([student.budget for student in students])[-1])
 
     csp_mapping(wow, courses)
@@ -122,20 +117,17 @@ def algorithm2(price_vector:list[float], maximum:int, eps:float, csp_mapping:cal
             wow = []
             for s in students:
                 a = copy.deepcopy(s)
-                a.preferences = []
-                for pre in s.preferences:
-                    a.preferences.append(pre)
-                wow.append(a)   
+                a.preferences = s.preferences[:]
+                wow.append(a) 
 
             # stitch on the wound       
             # dict_to_sort = {}
-            # with concurrent.futures.ProcessPoolExecutor(max_workers=WORKERS) as executor:
-            #     futures = [executor.submit(process_copy, students[i], i) for i in range(len(students))] 
-            #     for future in concurrent.futures.as_completed(futures):   # return each result as soon as it is completed:
-            #         dict_to_sort[future.result()[0]] = future.result()[1]
-            # sorteda = sorted(dict_to_sort.items(), key = lambda x:x[1])
-            # wow = [b[0] for b in sorteda]
-            # wow = []
+            with concurrent.futures.ProcessPoolExecutor(max_workers=WORKERS) as executor:
+                futures = [executor.submit(process_copy, students[i], i) for i in range(len(students))] 
+                for future in concurrent.futures.as_completed(futures):   # return each result as soon as it is completed:
+                    wow.append(future.result())
+            wow.sort(key=lambda x: x[0])
+            wow = [w[0] for w in wow]    
             ### try with proccess pool
 
             csp_mapping(wow,courses) # mapping here after price changes
@@ -149,8 +141,6 @@ def algorithm2(price_vector:list[float], maximum:int, eps:float, csp_mapping:cal
                 break #part of 13
         logger.debug("new price %g for course %s", J_hat.price, J_hat.name)
         J_hat = sorted(courses, key=cmp_to_key(Course.comperator))[-1] #15
-        # if(J_hat.capacity <= J_hat.max_capacity or maximum-J_hat.price <= eps):
-        #     return [c.price for c in courses]
     return [c.price for c in courses] #return at the end
 
 if __name__=="__main__":

@@ -71,6 +71,7 @@ def get_courses_students_matrix(students: list[Student], courses: list[Course]) 
     return matrix
 
 if __name__ == '__main__':
+    random.seed(3)
     times = []
     for i in range(1,2):
         start_time = time.time()
@@ -93,25 +94,24 @@ if __name__ == '__main__':
             students.append(Student(name=name, budget=budget, year=year, courses=courses, preferences=preferences))
 
         max_budget = 25
-        price_vector1 = algorithm1(courses=courses,max_budget=max_budget, seed=i, students=students,time_to=10)
+        price_vector1 = algorithm1(courses=courses,max_budget=max_budget, seed=3, students=students,time_to=10)
         map_price_demand(price_vector=price_vector1,courses=courses,max_budget=max_budget,students=students)
 
-        p_scalar = (max_budget- 0.1)
+    #     p_scalar = (max_budget- 0.1)
 
-        price_vector2 = algorithm2(price_vector=[course.price for course in courses], maximum=p_scalar,
-            eps=0.5, csp_mapping=csp_mapping, students=students, courses=courses)
+    #     price_vector2 = algorithm2(price_vector=[course.price for course in courses], maximum=p_scalar,
+    #         eps=0.5, csp_mapping=csp_mapping, students=students, courses=courses)
 
-        print(price_vector2)
-        # map_price_demand(price_vector=price_vector2,courses=courses,max_budget=max_budget,students=students)
-        reset_students(students,max_budget)
-        reset_update_prices(price_vector=price_vector2,courses=courses)
-        csp_mapping(students,courses)
+    #     print(price_vector2)
+    #     # map_price_demand(price_vector=price_vector2,courses=courses,max_budget=max_budget,students=students)
+    #     reset_students(students,max_budget)
+    #     reset_update_prices(price_vector=price_vector2,courses=courses)
+    #     csp_mapping(students,courses)
 
-        algorithm3(courses=courses, students=students,
-            students_matrix= get_courses_students_matrix(students,courses))
-        times.append((time.time() - start_time))
+    #     algorithm3(courses=courses, students=students,
+    #         students_matrix= get_courses_students_matrix(students,courses))
+    #     times.append((time.time() - start_time))
 
-    print(times)
-
+    # print(times)
 
 

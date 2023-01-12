@@ -118,7 +118,7 @@ def process_queue(price_vector, max_budget, i):
     temp[i] = (random.randint(1, 9)/10)*max_budget
     return temp
 
-def algorithm1(students:list[Student], courses:list[Course], max_budget:float, time_to:float, seed:int) -> list:
+def algorithm1(students:list[Student], courses:list[Course], max_budget:float, time_to:float = 1, seed:int = 3) -> list:
     '''
     Heuristic search algorithm through price space, originally developed in Othman et al. 2010
     designed to give each student a fixed budget at first and try find the must corresponding
@@ -156,15 +156,15 @@ def algorithm1(students:list[Student], courses:list[Course], max_budget:float, t
         price_vector = [((random.randint(1, 9)/10)*max_budget) for i in range(len(courses))]
         map_price_demand(price_vector, max_budget, students, courses)
         search_error = alpha_error(price_vector)
-        tabu_list = TabuList(5 + int(time_to/10))
+        tabu_list = TabuList(5)
         c = 0
-        while c < tabu_list.size:
+        while c < 5:
             # proccess pool use
 
             queue = []
-            # when using process pool it finds better best error, 
+            # when using process pool it  souldfinds better best error, 
             # not time improved but better performance  
-            if(len(price_vector) > 10):#10 need to be changed to Workers
+            if(len(price_vector) > 4):#4 need to be changed to Workers
                 with concurrent.futures.ProcessPoolExecutor(max_workers=WORKERS) as executor:
                     futures = [executor.submit(process_queue, price_vector,max_budget,i) for i in range(len(price_vector))] 
                     for future in concurrent.futures.as_completed(futures):   # return each result as soon as it is completed:
@@ -185,7 +185,7 @@ def algorithm1(students:list[Student], courses:list[Course], max_budget:float, t
                     logger.debug("%s", str(temp))
                     found_step = True
             #end of while 3
-            if(not queue) : c = tabu_list.size
+            if(not queue) : c = 5
             else:
                 price_vector = temp
                 tabu_list.add(temp)
