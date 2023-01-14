@@ -26,18 +26,18 @@ def main():
     times = []
     for i in range(1,5):
         start_time = time.time()
-        # Generate 10 courses
+        # Generate 10*i courses
         courses = []
-        for k in range(100*i):
+        for k in range(10*i):
             name = chr(ord('a') + i)
             price = random.randint(3, 15)
             capacity = 0
             max_capacity = random.randint(3, 10)
             courses.append(Course(name=name, price=price, capacity=capacity, max_capacity=max_capacity))
 
-        # Generate 40 students
+        # Generate 40*i students
         students = []
-        for p in range(400*i):
+        for p in range(40*i):
             name = 's' + str(i+1)
             budget = random.randint(15, 25)
             year = random.randint(1, 4)
@@ -53,8 +53,6 @@ def main():
         price_vector2 = algorithm2(price_vector=[course.price for course in courses], maximum=p_scalar,
             eps=0.5, students=students, courses=courses)
 
-        # print(price_vector2)
-        # map_price_demand(price_vector=price_vector2,courses=courses,max_budget=max_budget,students=students)
         reset_students(students,max_budget)
         reset_update_prices(price_vector=price_vector2,courses=courses)
         csp_mapping(students,courses)
