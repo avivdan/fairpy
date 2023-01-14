@@ -17,8 +17,8 @@ logfile = logging.FileHandler("my_logger1.log", mode="w")
 logger.handlers = [console,logfile]
 logfile.setFormatter(logging.Formatter('%(asctime)s: %(levelname)s: %(name)s: Line %(lineno)d: %(message)s'))
 
-logger.setLevel(logging.DEBUG)
-console.setLevel(logging.INFO)
+logger.setLevel(logging.FATAL)
+console.setLevel(logging.FATAL)
 
 def reset_update_prices(price_vector, courses:list[Course]):
     '''
@@ -115,7 +115,7 @@ def map_price_demand(price_vector:list[float], max_budget: float, students:list[
 
 def process_queue(price_vector, max_budget, i):
     temp = copy.deepcopy(price_vector)
-    temp[i] = (random.randint(1, 9)/10)*max_budget
+    temp[i] = (random.randint(1, 7)/10)*max_budget
     return temp
 
 def algorithm1(students:list[Student], courses:list[Course], max_budget:float, time_to:float = 1, seed:int = 3) -> list:

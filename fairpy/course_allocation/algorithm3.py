@@ -11,8 +11,8 @@ logfile = logging.FileHandler("my_logger3.log", mode="w")
 logger.handlers = [console,logfile]
 logfile.setFormatter(logging.Formatter('%(asctime)s: %(levelname)s: %(name)s: Line %(lineno)d: %(message)s'))
 
-logger.setLevel(logging.DEBUG)
-console.setLevel(logging.INFO)
+logger.setLevel(logging.FATAL)
+console.setLevel(logging.FATAL)
 
 def mapping_csp(courses:list[Course], students:list[Student], helper:dict, students_matrix:list[list[bool]]):
     '''

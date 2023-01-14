@@ -15,8 +15,8 @@ logfile = logging.FileHandler("my_logger2.log", mode="w")
 logger.handlers = [console,logfile]
 logfile.setFormatter(logging.Formatter('%(asctime)s: %(levelname)s: %(name)s: Line %(lineno)d: %(message)s'))
 
-logger.setLevel(logging.DEBUG)
-console.setLevel(logging.WARNING)
+logger.setLevel(logging.FATAL)
+console.setLevel(logging.FATAL)
 
 def csp_mapping(students:list[Student],courses:list[Course]):
     '''
@@ -55,11 +55,9 @@ def csp_mapping(students:list[Student],courses:list[Course]):
         if(not flag):
             break
 
-def process_copy(student:Student, i):
+def process_copy(student: Student, i: int):
     copy_student = copy.deepcopy(student)
     copy_student.preferences = student.preferences[:]
-    for pre in copy_student.preferences:
-        copy_student.preferences.append(pre)
     return copy_student, i
 
 def algorithm2(price_vector:list[float], maximum:int, eps:float, students, courses, csp_mapping:callable = csp_mapping)->list[float]:
@@ -86,7 +84,7 @@ def algorithm2(price_vector:list[float], maximum:int, eps:float, students, cours
     >>> eps = 1
     >>> maximum = 10
     >>> price_vector = [6,4,6]
-    >>> algorithm2(price_vector, maximum, eps, csp_mapping, students, courses)
+    >>> algorithm2(price_vector, maximum, eps, students, courses, csp_mapping)
     [6, 4, 6]
     '''
     ## this section is for finding j_hat in line 1
@@ -119,17 +117,6 @@ def algorithm2(price_vector:list[float], maximum:int, eps:float, students, cours
                 a = copy.deepcopy(s)
                 a.preferences = s.preferences[:]
                 wow.append(a) 
-
-            # stitch on the wound       
-            # dict_to_sort = {}
-            with concurrent.futures.ProcessPoolExecutor(max_workers=WORKERS) as executor:
-                futures = [executor.submit(process_copy, students[i], i) for i in range(len(students))] 
-                for future in concurrent.futures.as_completed(futures):   # return each result as soon as it is completed:
-                    wow.append(future.result())
-            wow.sort(key=lambda x: x[0])
-            wow = [w[0] for w in wow]    
-            ### try with proccess pool
-
             csp_mapping(wow,courses) # mapping here after price changes
             if((J_hat.capacity-J_hat.max_capacity) >= d_star): #line 8
                 p_l = J_hat.price #9
