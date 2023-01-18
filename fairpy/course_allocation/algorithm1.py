@@ -149,7 +149,7 @@ def algorithm1(students, courses, max_budget:float, time_to:float, seed:int):
             s = s + (course.max_capacity - course.capacity)**2
         return s
     ###
-    def alpha_error_mod(price_vector:list[float]):
+    def alpha_error_mod(price_vector):
         map_price_demand(price_vector, max_budget, students, courses)
         s = 0
         for course in courses:
