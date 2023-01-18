@@ -78,8 +78,8 @@ def reset_students(students:list[Student], max_budget: float):
             student.budget = max_budget 
             student.courses = []
 
-def map_price_demand(price_vector:list[float], max_budget: float, students:list[Student], 
-                     courses:list[Course]):
+def map_price_demand(price_vector, max_budget: float, students, 
+                     courses):
         '''
         mapping price vector to demands of students
         >>> a = Course(name='a', price=0, max_capacity=5)
@@ -120,7 +120,7 @@ def map_price_demand(price_vector:list[float], max_budget: float, students:list[
                 break 
 
 
-def algorithm1(students:list[Student], courses:list[Course], max_budget:float, time_to:float, seed:int) -> list:
+def algorithm1(students, courses, max_budget:float, time_to:float, seed:int):
     '''
     Heuristic search algorithm through price space, originally developed in Othman et al. 2010
     designed to give each student a fixed budget at first and try find the must corresponding

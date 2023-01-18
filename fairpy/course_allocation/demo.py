@@ -20,7 +20,7 @@ from algorithm2 import algorithm2, csp_mapping, copy, math, cmp_to_key
 from algorithm3 import algorithm3, mapping_csp
 
 
-def get_courses_students_matrix(students: list[Student], courses: list[Course]) -> list[list[bool]]:
+def get_courses_students_matrix(students, courses):
     # Initialize the matrix with all False values
     matrix = [[False for _ in courses] for _ in students]
 

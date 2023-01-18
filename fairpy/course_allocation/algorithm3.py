@@ -69,7 +69,7 @@ def mapping_csp(courses:list[Course], students:list[Student], helper:dict, stude
         if (not flag):
             break
 
-def algorithm3(courses, students, students_matrix:list[list[bool]],csp_students:callable =mapping_csp)->list:
+def algorithm3(courses, students, students_matrix,csp_students:callable =mapping_csp)->list:
     '''
     Automated aftermarket allocations with increased budget and restricted allocations
     >>> a = Course(name='a', price= 12, capacity =3 , max_capacity=5)

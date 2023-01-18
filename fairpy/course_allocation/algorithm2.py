@@ -24,7 +24,7 @@ logfile.setFormatter(logging.Formatter('%(asctime)s: %(levelname)s: %(name)s: Li
 logger.setLevel(logging.DEBUG)
 console.setLevel(logging.WARNING)
 
-def csp_mapping(students:list[Student],courses:list[Course]):
+def csp_mapping(students,courses):
     '''
     >>> a = Course(name='a', price=2.4, capacity=0, max_capacity=5)
     >>> b = Course(name='b', price=5, capacity=0, max_capacity=4)
@@ -62,7 +62,7 @@ def csp_mapping(students:list[Student],courses:list[Course]):
         if(not flag):
             break
 
-def algorithm2(price_vector:list[float], maximum:int, eps:float, csp_mapping:callable, students, courses)->list[float]:
+def algorithm2(price_vector, maximum:int, eps:float, csp_mapping:callable, students, courses):
     '''
     Iterative oversubscription elimination algorithm, 
     reducing by half the excess demand of the most oversubscribed course with each pass,
