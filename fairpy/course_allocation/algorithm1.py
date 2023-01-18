@@ -142,7 +142,7 @@ def algorithm1(students, courses, max_budget:float, time_to:float, seed:int):
     >>> algorithm1(students, courses, max_budget, time_to= 2.0, seed = 3)
     [5.3999999999999995, 5.3999999999999995, 1.8]
     '''
-    def alpha_error(price_vector:list[float]):
+    def alpha_error(price_vector):
         map_price_demand(price_vector, max_budget, students, courses)
         s = 0
         for course in courses:
