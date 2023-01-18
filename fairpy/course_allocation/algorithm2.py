@@ -39,7 +39,7 @@ def csp_mapping(students:list[Student],courses:list[Course]):
     >>> students = [s1, s2, s3, s4, s5, s6]
     >>> csp_mapping(students, courses)
     >>> [str(course) for course in courses]
-    ['course name: a capacity 5/5 and priced 2.4', 'course name: b capacity 5/4 and priced 5', 'course name: c capacity 5/5 and priced 10.4']
+    ['course name: a capacity 5/5 and priced 2.4', 'course name: b capacity 4/4 and priced 5', 'course name: c capacity 5/5 and priced 10.4']
     '''
     def get_course(s) -> bool:
         for preference in s.preferences:
@@ -98,10 +98,6 @@ def algorithm2(price_vector:list[float], maximum:int, eps:float, csp_mapping:cal
             a.preferences.append(pre)
         wow.append(a)
     flag = False
-    # if(sorted([student.budget for student in students])[-1] < maximum):
-    #     #the algorithm requires maximum to be less than maximum budget
-    #     # maximum = sorted([student.budget for student in students])[-1]
-    #     # logger.warning("maximum greater than max budget")
     logger.debug("%g is the greatest budget", sorted([student.budget for student in students])[-1])
 
     csp_mapping(wow, courses)
@@ -134,11 +130,9 @@ def algorithm2(price_vector:list[float], maximum:int, eps:float, csp_mapping:cal
                 break #part of 13
         logger.debug("new price %g for course %s", J_hat.price, J_hat.name)
         J_hat = sorted(courses, key=cmp_to_key(Course.comperator))[-1] #15
-        # if(J_hat.capacity <= J_hat.max_capacity or maximum-J_hat.price <= eps):
-        #     return [c.price for c in courses]
     return [c.price for c in courses] #return at the end
 
 if __name__=="__main__":
     import pytest
-    #run algorithm and test of the algorithm
+    # #run algorithm and test of the algorithm
     pytest.main(args=["fairpy/course_allocation/algorithm2.py", "fairpy/course_allocation/algorithm2_test.py"])

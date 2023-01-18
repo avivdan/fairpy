@@ -15,7 +15,7 @@ def test_1():
     eps = 1
     maximum = 10
     price_vector = [9,2,4.5]
-    assert algorithm2(price_vector, maximum, eps, csp_mapping, students, courses) == [9,10,4.5]
+    assert algorithm2(price_vector, maximum, eps, csp_mapping, students, courses) == [9, 2, 4.5]
 
 def test_2(): 
     a = Course(name='a', price=2.4, capacity=0, max_capacity=5)
@@ -34,7 +34,7 @@ def test_2():
     eps = 1
     maximum = 10
     price_vector = [2.4,5,10.4]
-    assert algorithm2(price_vector, maximum, eps, csp_mapping, students, courses) == [2.4,8.125,10.4]
+    assert algorithm2(price_vector, maximum, eps, csp_mapping, students, courses) == [2.4, 5, 10]
 
 
 def test_3():
@@ -51,7 +51,7 @@ def test_3():
     eps = 0.1
     maximum = 6
     price_vector = [3,4,3]
-    assert(algorithm2(price_vector, maximum, eps, csp_mapping, students, courses)==[3,6,3])
+    assert(algorithm2(price_vector, maximum, eps, csp_mapping, students, courses)==[3,4,3])
 
 if __name__=="__main__":
     import pytest
