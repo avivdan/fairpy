@@ -26,7 +26,7 @@ logfile.setFormatter(logging.Formatter('%(asctime)s: %(levelname)s: %(name)s: Li
 logger.setLevel(logging.DEBUG)
 console.setLevel(logging.INFO)
 
-def reset_update_prices(price_vector, courses:list[Course]):
+def reset_update_prices(price_vector, courses):
     '''
     reset prices of courses and capacity
     >>> a = Course(name='a', price=0, max_capacity=5)
@@ -53,7 +53,7 @@ def reset_update_prices(price_vector, courses:list[Course]):
         course.price = price_vector[i]
         i += 1
 
-def reset_students(students:list[Student], max_budget: float):
+def reset_students(students, max_budget: float):
     '''
     reset budget and courses for students
     >>> a = Course(name='a', price=0, max_capacity=5)

@@ -21,7 +21,7 @@ logfile.setFormatter(logging.Formatter('%(asctime)s: %(levelname)s: %(name)s: Li
 logger.setLevel(logging.DEBUG)
 console.setLevel(logging.INFO)
 
-def mapping_csp(courses:list[Course], students:list[Student], helper:dict, students_matrix:list[list[bool]]):
+def mapping_csp(courses, students, helper:dict, students_matrix):
     '''
     >>> a = Course(name='a', price=12, capacity=1 ,max_capacity=5)
     >>> b = Course(name='b', price=2, capacity=3 ,max_capacity=3)
@@ -69,7 +69,7 @@ def mapping_csp(courses:list[Course], students:list[Student], helper:dict, stude
         if (not flag):
             break
 
-def algorithm3(courses, students, students_matrix,csp_students:callable =mapping_csp)->list:
+def algorithm3(courses, students, students_matrix,csp_students:callable =mapping_csp):
     '''
     Automated aftermarket allocations with increased budget and restricted allocations
     >>> a = Course(name='a', price= 12, capacity =3 , max_capacity=5)
