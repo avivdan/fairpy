@@ -69,6 +69,15 @@ def mapping_csp(courses, students, helper:dict, students_matrix):
         if (not flag):
             break
 
+def print_matrix(students, courses, students_matrix):
+    s = ""
+    for i in range(len(students)):
+        for j in range(len(courses)):
+            s+=str(students_matrix[i][j]) 
+            s+= ", "
+        s+="\n"
+    return s
+
 def algorithm3(courses, students, students_matrix,csp_students:callable =mapping_csp):
     '''
     Automated aftermarket allocations with increased budget and restricted allocations
@@ -85,14 +94,8 @@ def algorithm3(courses, students, students_matrix,csp_students:callable =mapping
     >>> students_matrix = [[False, True, True], [False, True, True], [True, True, False], [True, True, False], [True, False, True]]
     >>> algorithm3(courses, students ,students_matrix,mapping_csp)
     [[False, True, True], [False, True, True], [True, True, False], [True, True, False], [True, False, True]]
-    '''
-    s = ""
-    for i in range(len(students)):
-        for j in range(len(courses)):
-            s+=str(students_matrix[i][j]) 
-            s+= ", "
-        s+="\n"
-    logger.debug(s)
+    '''    
+    logger.debug(print_matrix(students, courses, students_matrix))    
     #create dict for easy traversal
     helper = {}
     count = 0
@@ -112,13 +115,7 @@ def algorithm3(courses, students, students_matrix,csp_students:callable =mapping
             if(not(before_inc == student.courses)):
                 done = False
                 break #break of for loop and not while loop
-    s = ""
-    for i in range(len(students)):
-        for j in range(len(courses)):
-            s += str(students_matrix[i][j]) 
-            s+= ", "
-        s+="\n"
-    logger.debug(s)
+    logger.debug(logger.debug(print_matrix(students, courses, students_matrix)))
     return students_matrix
 
 if __name__=="__main__":

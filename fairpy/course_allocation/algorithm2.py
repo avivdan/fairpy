@@ -61,6 +61,21 @@ def csp_mapping(students,courses):
                     flag = True
         if(not flag):
             break
+def copy_students(students):
+    list_copy = []
+    for s in students:
+        a = copy.deepcopy(s)
+        a.preferences = []
+        for pre in s.preferences:
+            a.preferences.append(pre)
+        list_copy.append(a)
+    return list_copy
+
+def get_demand_vector(courses):
+    lst = []
+    for course in courses:
+        lst.append(f"{course.capacity}/{course.max_capacity}")
+    return lst
 
 def algorithm2(price_vector, maximum:int, eps:float, csp_mapping:callable, students, courses):
     '''
@@ -90,20 +105,16 @@ def algorithm2(price_vector, maximum:int, eps:float, csp_mapping:callable, stude
     [6, 4, 6]
     '''
     ## this section is for finding j_hat in line 1
-    wow = []
-    for s in students:
-        a = copy.deepcopy(s)
-        a.preferences = []
-        for pre in s.preferences:
-            a.preferences.append(pre)
-        wow.append(a)
+    if(max([student.budget for student in students]) > maximum):
+         raise Exception("maximum must be greater than max budget of students or more")
+    stud = copy_students(students)
     flag = False
-    logger.debug("%g is the greatest budget", sorted([student.budget for student in students])[-1])
-
-    csp_mapping(wow, courses)
-    J_hat = sorted(courses, key=cmp_to_key(Course.comperator))[-1]
+    logger.debug("%g is the greatest budget", max([student.budget for student in students]))
+    csp_mapping(stud, courses)
+    J_hat = max(courses, key=cmp_to_key(Course.comperator))
+    
     ##till here line 1 in algorithm 2
-    while((J_hat.capacity-J_hat.max_capacity > 0 and not J_hat.mark) or (maximum-J_hat.price <= eps)): #2
+    while(J_hat.capacity-J_hat.max_capacity > 0): #2
         d_star = math.floor((J_hat.capacity-J_hat.max_capacity)/2) #3
         p_l = J_hat.price #4
         p_h = maximum #5
@@ -112,24 +123,18 @@ def algorithm2(price_vector, maximum:int, eps:float, csp_mapping:callable, stude
         while(True): #6
             J_hat.price = (p_l + p_h)/2 #7
             ##same here as above, for line 8 if section
-            wow = []
-            for s in students:
-                a = copy.deepcopy(s)
-                a.preferences = s.preferences[:]
-                wow.append(a)   
-                logger.debug(str(s.preferences))
-
-            csp_mapping(wow,courses) # mapping here after price changes
+            stud = copy_students(students)
+            csp_mapping(stud,courses) # mapping here after price changes
             if((J_hat.capacity-J_hat.max_capacity) >= d_star): #line 8
                 p_l = J_hat.price #9
             else: #10
                 p_h = J_hat.price #11
             if(p_h - p_l <= eps): #13
                 J_hat.price = p_h #14
-                J_hat.mark = True #14
                 break #part of 13
         logger.debug("new price %g for course %s", J_hat.price, J_hat.name)
-        J_hat = sorted(courses, key=cmp_to_key(Course.comperator))[-1] #15
+        J_hat = max(courses, key=cmp_to_key(Course.comperator)) #15
+    logger.info(get_demand_vector(courses))
     return [c.price for c in courses] #return at the end
 
 if __name__=="__main__":

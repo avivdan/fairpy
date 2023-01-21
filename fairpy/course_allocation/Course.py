@@ -6,13 +6,10 @@ class Course:
         self.price = price
         self.capacity = capacity
         self.max_capacity = max_capacity
-        self.mark = False # if cant be helpd we mark course
     
     def comperator(a, b):
-        if(a.mark == b.mark):
-            return (a.capacity - a.max_capacity) - (b.capacity - b.max_capacity)
-        if(a.mark): return -1
-        if(b.mark): return 1
+        return (a.capacity - a.max_capacity) - (b.capacity - b.max_capacity)
+        
     
     def __str__(self) -> str:
         return  f"course name: {self.name} capacity {self.capacity}/{self.max_capacity} and priced {self.price}"

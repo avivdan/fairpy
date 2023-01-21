@@ -13,7 +13,7 @@ def test_1():
     students = [s1, s2, s3, s4, s5]
     
     eps = 1
-    maximum = 10
+    maximum = 15
     price_vector = [9,2,4.5]
     assert algorithm2(price_vector, maximum, eps, csp_mapping, students, courses) == [9, 2, 4.5]
 
@@ -32,9 +32,9 @@ def test_2():
     s6 = Student(name='s6', budget=18, year=1, courses=[], preferences=([a, c, b]))
     students = [s1, s2, s3, s4, s5, s6]
     eps = 1
-    maximum = 10
+    maximum = 18
     price_vector = [2.4,5,10.4]
-    assert algorithm2(price_vector, maximum, eps, csp_mapping, students, courses) == [2.4, 5, 10]
+    assert algorithm2(price_vector, maximum, eps, csp_mapping, students, courses) == [2.4, 5, 10.4]
 
 
 def test_3():
@@ -49,7 +49,7 @@ def test_3():
     s5 = Student(name='s5', budget=10, preferences=([a, b, c]))
     students = [s1, s2, s3, s4, s5]
     eps = 0.1
-    maximum = 6
+    maximum = 10
     price_vector = [3,4,3]
     assert(algorithm2(price_vector, maximum, eps, csp_mapping, students, courses)==[3,4,3])
 
